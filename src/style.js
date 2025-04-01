@@ -1,8 +1,11 @@
 const styles = {
-  paddingX: "sm:px-16 px-6",
-  paddingY: "sm:py-16 py-6",
-  padding: "sm:px-16 px-6 sm:py-16 py-10",
+  paddingX: "px-6 md:px-16",
+  paddingY: "py-6 md:py-16",
+  padding: "md:px-16 px-6 md:py-16 py-10",
 
+navBar:{
+  nav: "px-6 md:px-16 py-[5px] w-full flex items-center fixed z-10 bg-gradient-to-b from-black via-[#050816] via-[#1d1836] to-black",
+},
   heroHeadText:
     "font-black text-white lg:text-[80px] sm:text-[60px] xs:text-[50px] text-[40px] lg:leading-[98px] mt-2",
   heroSubText:

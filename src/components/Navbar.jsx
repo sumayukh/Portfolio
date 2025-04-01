@@ -8,18 +8,7 @@ const Navbar = () => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   return (
-    <nav
-      className={styles.paddingX}
-      style={{
-        width: "100%",
-        display: "flex",
-        alignItems: "center",
-        paddingY: "5px",
-        position: "fixed",
-        zIndex: 10,
-        background: "linear-gradient(180deg, black, #050816, #1d1836, black)",
-      }}
-    >
+    <nav className={styles?.navBar?.nav}>
       <div
         style={{
           width: "100%",
