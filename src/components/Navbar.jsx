@@ -1,78 +1,137 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
 import { styles } from "../style";
+import { slideIn } from "../utils/motion";
 import { navLinks } from "../constants";
 import { myLogo, menu, close } from "../assets";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   return (
-    <nav className={styles?.navBar?.nav}>
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          maxWidth: "7xl",
-          margin: "0 auto",
-        }}
-      >
-        <div>
-          <Link
-            to="/Portfolio"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "16px",
-            }}
-            onClick={() => {
-              setActive("");
-              window.scrollTo(0, 0);
-            }}
-          >
-            <img
-              src={myLogo}
-              alt="myLogo"
-              style={{
-                width: "9rem",
-                height: "9rem",
-                objectFit: "contain",
-              }}
-            />
-            <p
-              style={{
-                color: "#f3f3f3",
-                fontSize: "18px",
-                fontWeight: "bold",
-                cursor: "pointer",
-                display: "flex",
-              }}
-            >
-              Sumayukh Sinha&nbsp;
-              <span>| Portfolio</span>
-            </p>
-          </Link>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-start",
+    <nav className={styles?.navBar?.container}>
+      <div className={styles?.navBar?.navGridOne}>
+        <Link
+          to="/Portfolio"
+          className="flex justify-between items-center gap-[16px]"
+          onClick={() => {
+            setActive("");
+            window.scrollTo(0, 0);
           }}
         >
-          <ul
+          <img
+            src={myLogo}
+            alt="myLogo"
             style={{
-              display: "flex",
-              flexDirection: "row",
-              gap: "40px",
+              width: "9rem",
+              height: "9rem",
+              objectFit: "contain",
             }}
+          />
+          <span className={styles?.navBar?.gridOneSpan}>
+            Sumayukh Sinha | Portfolio
+          </span>
+        </Link>
+      </div>
+
+      <div className={styles?.navBar?.navGridTwo}>
+        <ul className="flex justify-between items-center">
+          {navLinks.map((item) => {
+            return (
+              <li
+                className="flex justify-between items-center gap-4"
+                key={item.id}
+                onClick={() => {
+                  setActive(item.id);
+                  const section = document
+                    .getElementById(item.id)
+                    .getBoundingClientRect();
+                  window.scrollTo({
+                    top: window.scrollY == 0 ? section.y : 0,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                <span style={{ color: "#aaa6c3" }}>
+                  {item?.id?.toUpperCase()?.includes("ABOUT") ? ` || ` : ` | `}
+                </span>
+                <Link
+                  to={`Portfolio/${item.id}`}
+                  className="text-md font-medium cursor-pointer"
+                  style={{
+                    color: active === item.id ? "#f3f3f3" : "#aaa6c3",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = "#f3f3f3";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color =
+                      active === item.id ? "#f3f3f3" : "#aaa6c3";
+                  }}
+                >
+                  {item.title}
+                </Link>
+                <span style={{ color: "#aaa6c3" }}>
+                  {item?.id?.toUpperCase()?.includes("CONTACT")
+                    ? ` || `
+                    : ` | `}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div className={styles?.navBar?.navGridThree}>
+        {!toggle && (
+          <img
+            src={menu}
+            alt="menu"
+            style={{
+              width: "28px",
+              height: "28px",
+              objectFit: "contain",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              setToggle(!toggle);
+            }}
+          />
+        )}
+      </div>
+      <AnimatePresence>
+        {toggle && (
+          <motion.div
+            className={styles?.navBar?.navGridFour}
+            variants={slideIn("up", "easeInOut", 0.2, 0.6, true)}
+            initial="hidden"
+            animate="show"
+            exit="exit"
           >
+            <div className="flex flex-end">
+              <img
+                src={close}
+                alt="menu"
+                className="cursor-pointer object-contain"
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  objectFit: "contain",
+                }}
+                onClick={() => {
+                  setToggle(!toggle);
+                }}
+              />
+            </div>
             {navLinks.map((item) => {
               return (
-                <li
+                <div
+                  className="flex justify-center items-center text-md font-medium cursor-pointer h-full"
                   key={item.id}
                   onClick={() => {
+                    setToggle(!toggle);
                     setActive(item.id);
                     const section = document
                       .getElementById(item.id)
@@ -81,146 +140,26 @@ const Navbar = () => {
                       top: window.scrollY == 0 ? section.y : 0,
                       behavior: "smooth",
                     });
+                    navigate(`Portfolio/${item.id}`);
+                  }}
+                  style={{
+                    color: active === item.id ? "#f3f3f3" : "#aaa6c3",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.color = "#f3f3f3";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.color =
+                      active === item.id ? "#f3f3f3" : "#aaa6c3";
                   }}
                 >
-                  <Link
-                    to={`Portfolio/${item.id}`}
-                    style={{
-                      color: active === item.id ? "#f3f3f3" : "#aaa6c3",
-                      fontSize: "18px",
-                      fontWeight: "500",
-                      cursor: "pointer",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.color = "#f3f3f3";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.color =
-                        active === item.id ? "#f3f3f3" : "#aaa6c3"; // Reset the color to its default value
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                  <span style={{ color: "#aaa6c3" }}>&nbsp;|&nbsp;</span>
-                </li>
+                  {item.title}
+                </div>
               );
             })}
-          </ul>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            // flex: "1",
-            justifyContent: "flex-end",
-            "@media (minWidth: 640px)": {
-              display: "none",
-            },
-          }}
-        >
-          {!toggle && (
-            <img
-              src={menu}
-              alt="menu"
-              style={{
-                width: "28px",
-                height: "28px",
-                objectFit: "contain",
-                cursor: "pointer",
-              }}
-              onClick={() => {
-                setToggle(!toggle);
-              }}
-            />
-          )}
-          {toggle && (
-            <div
-              style={{
-                display: "flex",
-                padding: "36px",
-                background:
-                  "linear-gradient(180deg, black, #050816, #1d1836, black)",
-                position: "absolute",
-                // top: "60px",
-                // right: "0",
-                // margin: "4px",
-                // marginTop: "2px",
-                minWidth: "140px",
-                zIndex: "10",
-                borderRadius: "20px",
-              }}
-            >
-              <ul
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignItems: "flex-start",
-                  flexDirection: "column",
-                  gap: "4px",
-                  "@media (minWidth: 640px)": {
-                    display: "flex",
-                  },
-                }}
-              >
-                {navLinks.map((item) => {
-                  return (
-                    <li
-                      key={item.id}
-                      onClick={() => {
-                        setToggle(!toggle);
-                        setActive(item.id);
-                        const section = document
-                          .getElementById(item.id)
-                          .getBoundingClientRect();
-                        window.scrollTo({
-                          top: window.scrollY == 0 ? section.y : 0,
-                          behavior: "smooth",
-                        });
-                      }}
-                    >
-                      <Link
-                        style={{
-                          color: active === item.id ? "#f3f3f3" : "#aaa6c3",
-                          fontFamily: "'Poppins', 'sans-serif",
-                          fontSize: "16px",
-                          fontWeight: "500",
-                          cursor: "pointer",
-                        }}
-                        onMouseEnter={(e) => {
-                          e.target.style.color = "#f3f3f3";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.target.style.color =
-                            active === item.id ? "#f3f3f3" : "#aaa6c3"; // Reset the color to its default value
-                        }}
-                        to={`Portfolio/${item.id}`}
-                      >
-                        {item.title}
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-              <img
-                src={close}
-                alt="menu"
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  marginTop: "-16px",
-                  marginRight: "-16px",
-                  width: "20px",
-                  height: "20px",
-                  objectFit: "contain",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setToggle(!toggle);
-                }}
-              />
-            </div>
-          )}
-        </div>
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

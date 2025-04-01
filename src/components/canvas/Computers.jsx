@@ -13,7 +13,7 @@ const Computers = ({ isMobile, freezeRotation, direction }) => {
       meshRef.current.rotation.y = tempRotation;
     } else {
       let index = direction ? 1 : -1;
-      meshRef.current.rotation.y = tempRotation + index * 0.03;
+      meshRef.current.rotation.y = tempRotation + index * 0.015;
     }
   }, []);
   return (
@@ -36,7 +36,7 @@ const ComputersCanvas = () => {
   const [direction, setDirection] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(maxWidth: 500px)");
+    const mediaQuery = window.matchMedia("(maxWidth: 48rem)");
     setIsMobile(mediaQuery.matches);
     const handleMediaQueryChange = (e) => {
       setIsMobile(e.matches);
