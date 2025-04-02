@@ -4,6 +4,12 @@ const gradients = [
   `bg-gradient-radial from-[#1d1836] to-purple-700`,
 ];
 const styles = {
+  root: {
+    container: "relative z-0 bg-black overflow-hidden",
+    backgroundContainer: "bg-cover bg-no-repeat bg-center pb-24",
+    contactContainer: "relative z-0 overflow-hidden",
+  },
+
   paddingX: "px-6 md:px-16",
   paddingY: "py-6 md:py-16",
   padding: "md:px-16 px-6 md:py-16 py-10",

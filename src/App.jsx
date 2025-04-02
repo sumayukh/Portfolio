@@ -3,32 +3,19 @@ import {
   About,
   Contact,
   Experience,
-  // Feedbacks,
   Hero,
   Navbar,
   Tech,
   Works,
   StarsCanvas,
 } from "./components";
+import { styles } from "./style";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <div
-        style={{
-          position: "relative",
-          zIndex: 0,
-          background: "#000",
-        }}
-      >
-        <div
-          style={{
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            paddingBottom: "6rem",
-          }}
-        >
+      <div className={styles?.root?.container}>
+        <div className={styles?.root?.backgroundContainer}>
           <Navbar />
           <Hero />
         </div>
@@ -36,13 +23,7 @@ const App = () => {
         <Experience />
         <Tech />
         <Works />
-        {/* <Feedbacks /> */}
-        <div
-          style={{
-            position: "relative",
-            zIndex: 0,
-          }}
-        >
+        <div className={styles?.root?.contactContainer}>
           <Contact />
           <StarsCanvas />
         </div>
